@@ -53,14 +53,10 @@ jobs:
           CI: true
       # Step 7: Decode preprod google-services.json
       - name: Decode preprod google-services.json
-        run: echo "$GOOGLESERVICESDEV" | base64 --decode > android/app/google-services.json
-        env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLESERVICESDEV }}
+        run: echo "${{ secrets.GOOGLESERVICESDEV }}" | base64 --decode > android/app/google-services.json
       # Step 8: Decode preprod env.js
       - name: Decode preprod env.js
-        run: echo "$ENVDEV" | base64 --decode > env.js
-        env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.ENVDEV }}
+        run: echo "${{ secrets.ENVDEV }}" | base64 --decode > env.js
       # Step 9: Fastlane build android
       - name : Build android App via fastlane
         run : fastlane android build 
