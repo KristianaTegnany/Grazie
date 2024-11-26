@@ -1,0 +1,13 @@
+/* 
+  InfoPlist.strings
+  Grazie
+
+  Created by Nomena Faliana on 04/11/2024.
+  
+*/
+
+"NSCalendarsUsageDescription"="Access to the calendar allows you to save your appointments made through the app.";
+"NSCameraUsageDescription"="Our app uses the camera to take photos to personalize and update your user profile.";
+"NSLocationAlwaysAndWhenInUseUsageDescription"="Enabling location services allows us to show you nearby addresses.";
+"NSLocationWhenInUseUsageDescription"="Enabling location services allows us to show you nearby addresses.";
+"NSPhotoLibraryUsageDescription"="Allow access to your gallery to upload a profile photo from your library.";

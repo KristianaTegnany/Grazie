@@ -1,0 +1,4 @@
+json_key_file("fastlane/credentials.json")
+package_name("fr.grazie.gigi")
+apple_id("kristianatenaizy@gmail.com")
+itc_team_id("125878437")

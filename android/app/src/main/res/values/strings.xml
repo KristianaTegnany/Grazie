@@ -1,0 +1,5 @@
+<resources>
+  <string name="app_name">Grazie</string>
+  <string name="mapbox_access_token">pk.eyJ1IjoiZ29yaWxsZXMiLCJhIjoiY2xtamFiNW13MDI2YjJsdG00b3U0cGl4ZyJ9.cHXN66y5Jx17ZlBG3vkJZg</string>
+  <string name="expo_runtime_version">1.0.0</string>
+</resources>
