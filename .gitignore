@@ -11,6 +11,8 @@ GoogleService-Info.plist
 GoogleService-Info_dev.plist
 GoogleService-Info_prod.plist
 
+gradle.properties
+
 # OSX
 #
 .DS_Store
