@@ -46,4 +46,4 @@ jobs:
     - name: Build and upload to TestFlight
       run: fastlane ios build
       env:
-        PRIVATE_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
+        GITLAB_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
