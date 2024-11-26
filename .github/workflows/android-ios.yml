@@ -42,9 +42,8 @@ jobs:
     # Step 9: Decode preprod env.js
     - name: Decode preprod env.js
       run: echo "${{ secrets.ENVDEV }}" | base64 --decode > env.js
-    # Step 10: Set PRIVATE_TOKEN
-    - name: Set PRIVATE_TOKEN environment variable
-      run: echo "PRIVATE_TOKEN=${{ secrets.PRIVATE_TOKEN }}" >> $GITHUB_ENV
     # Step 10: Run Fastlane to build and ship the build 
     - name: Build and upload to TestFlight
       run: fastlane ios build
+      env:
+        PRIVATE_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
