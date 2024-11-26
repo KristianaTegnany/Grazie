@@ -1,68 +1,47 @@
-name: Create build for both Android and IoS, upload to Google and Apple Store
+name: Create build for both Android and iOS, upload to Google and Apple Store
 on: push
 jobs:
+  # -------------------------------------------------------------
   # ----------------------- ANDROID -----------------------------
   # -------------------------------------------------------------
-  build-preprod-android:
-    name: Build & ship android preprod app
-    runs-on: ubuntu-latest
+  
+
+  # -------------------------------------------------------------
+  # ------------------------- IOS -------------------------------
+  # -------------------------------------------------------------
+  build-preprod-ios:
+    runs-on: macos-15
     steps:
-      # Step 1: Setup java and node
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: zulu
-          java-version: 17
-      - name: Set up NODE
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20  # using the .nvmrc file in future
-      # Step 2: Configure gradel and gradle wrapper with cache
-      - name: Cache Gradle Wrapper
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-caches-
-      # Step 3: Install node packages
-      - name: Install node modules
-        run: yarn install
-        env:
-          CI: true
-      # Step 4: Setup ruby
-      - uses: actions/checkout@v3
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: "2.7"
-      # Step 5: Install bundler, and fastlane
-      - name: Install Fastlane
-        run: bundle install
-        env:
-          CI: true
-      # Step 6: Install reactnative community pacakge manually
-      - name: Add @react-native-community manually
-        run: yarn add @react-native-community/cli-platform-android@7.0.1
-        env:
-          CI: true
-      # Step 7: Decode preprod google-services.json
-      - name: Decode preprod google-services.json
-        run: echo "${{ secrets.GOOGLESERVICESDEV }}" | base64 --decode > android/app/google-services.json
-      # Step 8: Decode gradle.properties
-      - name: Decode gradle.properties
-        run: echo "${{ secrets.GRADLEPROPRERTIES }}" | base64 --decode > android/app/gradle.properties
-      # Step 9: Decode preprod env.js
-      - name: Decode preprod env.js
-        run: echo "${{ secrets.ENVDEV }}" | base64 --decode > env.js
-      # Step 10: Fastlane build android
-      - name : Build android App via fastlane
-        run : fastlane android build 
-        env:
-          CI: true
-          CD: true
+    - uses: actions/checkout@v2
+    # Step 1: Install Node Version 14
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 20
+   # Step 2: Install Ruby
+    - name: Install Ruby
+      uses: actions/setup-ruby@v1
+      with:
+          ruby-version: 2.7
+    # Step 3: Install Node Modules
+    - name: Install Node Modules
+      run: yarn  
+      env:
+        CI: true
+
+    # Step 6: Install Pods 
+    - name: Install pods
+      run: cd ios && pod install --repo-update && cd ..
+  
+    # Step 7: Install Fastlane 
+    - name: Install Fastlane
+      run:  bundle install
+    # Step 8: Decode preprod GoogleService-Info.plist
+    - name: Decode preprod GoogleService-Info.plist
+      run: echo "${{ secrets.GOOGLESERVICEINFODEV }}" | base64 --decode > ios/GoogleService-Info.plist
+    # Step 9: Decode preprod env.js
+    - name: Decode preprod env.js
+      run: echo "${{ secrets.ENVDEV }}" | base64 --decode > env.js
+    # Step 10: Run Fastlane to build and ship the build 
+    - name: Build and upload to TestFlight
+      run: fastlane ios build
