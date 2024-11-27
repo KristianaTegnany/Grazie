@@ -9,6 +9,8 @@ platform :ios do
     desc 'Build the iOS application.'
     lane :build do
         certificates
+        sync_code_signing
+        disable_automatic_code_signing(path: "./ios/Grazie.xcodeproj")
         increment_build_number(xcodeproj: './ios/Grazie.xcodeproj')
         gym(
             scheme: 'Grazie',
