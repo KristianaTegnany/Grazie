@@ -10,9 +10,19 @@ jobs:
   # ------------------------- IOS -------------------------------
   # -------------------------------------------------------------
   build-preprod-ios:
-    runs-on: macos-15
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
+    # Step 1: Set up Xcode
+    - name: Set up Xcode
+      uses: apple-actions/setup-xcode@v2
+      with:
+        xcode-version: '16.1'
+    # Step 1: Install Node Version 14
+    - name: Import Certificate
+      run: |
+        security create-keychain -p "${{ secrets.CERTIFICATEPASSWORD }}" build.keychain
+        security import certificate.p12 -P ${{ secrets.CERTIFICATEPASSWORD }} -A -t cert -k build.keychain
     # Step 1: Install Node Version 14
     - name: Set up Node.js
       uses: actions/setup-node@v3
