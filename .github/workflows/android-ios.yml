@@ -13,11 +13,6 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
-    # Step 1: Import Certificate
-    - name: Import Certificate
-      run: |
-        security create-keychain -p "${{ secrets.CERTIFICATEPASSWORD }}" build.keychain
-        security import certificate.p12 -P ${{ secrets.CERTIFICATEPASSWORD }} -A -t cert -k build.keychain
     # Step 1: Install Node Version 14
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -47,6 +42,16 @@ jobs:
     # Step 9: Decode preprod env.js
     - name: Decode preprod env.js
       run: echo "${{ secrets.ENVDEV }}" | base64 --decode > env.js
+    # Step 10: Run Fastlane to build and ship the build 
+    - name: Build and upload to TestFlight
+      env:
+        PRIVATE_TOKEN: ${{ secrets.GITLABTOKEN }}
+      run: fastlane ios certificates && ls
+    # Step 1: Import Certificate
+    - name: Import Certificate
+      run: |
+        security create-keychain -p "${{ secrets.CERTIFICATEPASSWORD }}" build.keychain
+        security import certificate.p12 -P ${{ secrets.CERTIFICATEPASSWORD }} -A -t cert -k build.keychain
     # Step 10: Run Fastlane to build and ship the build 
     - name: Build and upload to TestFlight
       env:
