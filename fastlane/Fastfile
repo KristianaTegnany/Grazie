@@ -8,9 +8,14 @@ platform :ios do
 
     desc 'Build the iOS application.'
     lane :build do
+        setup_ci
+        sync_code_signing(  
+            type: "appstore",
+            readonly: is_ci
+        )
         certificates
         increment_build_number(xcodeproj: './ios/Grazie.xcodeproj')
-        gym(scheme: 'Grazie', workspace: './ios/Grazie.xcworkspace', include_bitcode: false, allow_provisioning_updates: true)
+        gym(scheme: 'Grazie', workspace: './ios/Grazie.xcworkspace', include_bitcode: false,)
     end
 
     desc 'Distribute to Testflight.'
