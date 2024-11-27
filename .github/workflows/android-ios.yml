@@ -45,6 +45,6 @@ jobs:
     # Step 10: Run Fastlane to build and ship the build 
     - name: Build and upload to TestFlight
       env:
-        GITLAB_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
+        PRIVATE_TOKEN: ${{ secrets.GITLABTOKEN }}
       run: fastlane ios build
       
