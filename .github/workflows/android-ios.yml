@@ -42,19 +42,14 @@ jobs:
     # Step 9: Decode preprod env.js
     - name: Decode preprod env.js
       run: echo "${{ secrets.ENVDEV }}" | base64 --decode > env.js
-    # Step 10: Run Fastlane to build and ship the build 
-    - name: Build and upload to TestFlight
-      env:
-        PRIVATE_TOKEN: ${{ secrets.GITLABTOKEN }}
-      run: fastlane ios certificates && ls
     # Step 8: Decode preprod GoogleService-Info.plist
-    - name: Decode certificates.p12
-      run: echo "${{ secrets.CERTIFICATE }}" | base64 --decode > certificate.p12
+    - name: Decode certificate.cer
+      run: echo "${{ secrets.CERTIFICATE }}" | base64 --decode > certificate.cer
     # Step 1: Import Certificate
     - name: Import Certificate
       run: |
-        security create-keychain -p "${{ secrets.CERTIFICATEPASSWORD }}" grazie.keychain
-        security import certificate.p12 -P ${{ secrets.CERTIFICATEPASSWORD }} -A -t cert -k grazie.keychain
+        security create-keychain -p ${{ secrets.CERTIFICATEPASSWORD }} grazie.keychain
+        security import certificate.cer -P ${{ secrets.CERTIFICATEPASSWORD }} -A -t cert -k grazie.keychain
     # Step 10: Run Fastlane to build and ship the build 
     - name: Build and upload to TestFlight
       env:
