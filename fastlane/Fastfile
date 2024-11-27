@@ -15,9 +15,6 @@ platform :ios do
             workspace: './ios/Grazie.xcworkspace',
             export_method: "app-store",
             include_bitcode: false,
-            provisioningProfiles: {
-                "fr.grazie.gigi" => "match AppStore fr.grazie.gigi 1732537576"
-            },
             xcargs: "-allowProvisioningUpdates"
         )
     end
