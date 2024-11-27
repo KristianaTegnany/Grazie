@@ -10,7 +10,16 @@ platform :ios do
     lane :build do
         certificates
         increment_build_number(xcodeproj: './ios/Grazie.xcodeproj')
-        gym(scheme: 'Grazie', workspace: './ios/Grazie.xcworkspace', export_method: "app-store", include_bitcode: false,)
+        gym(
+            scheme: 'Grazie',
+            workspace: './ios/Grazie.xcworkspace',
+            export_method: "app-store",
+            include_bitcode: false,
+            provisioningProfiles: {
+                "fr.grazie.gigi" => "match AppStore fr.grazie.gigi 1732537576"
+            },
+            xcargs: "-allowProvisioningUpdates"
+        )
     end
 
     desc 'Distribute to Testflight.'
