@@ -12,13 +12,18 @@ jobs:
   build-preprod-ios:
     runs-on: macos-15
     steps:
-    # Step 1: Install Fastlane 
+    # Step 1: Install Ruby
+    - name: Install Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+          ruby-version: 2.7
+    # Step 2: Install Fastlane 
     - name: Install Fastlane
       run:  bundle install
-    # Step 2: Unlock Keychain
+    # Step 3: Unlock Keychain
     - name: Unlock Keychain
       run: security unlock-keychain -p fghj /Users/runner/Library/Keychains/login.keychain-db
-    # Step 3: Install Node Version 14
+    # Step 4: Install Node Version 14
     - name: Build and upload to TestFlight
       env:
         PRIVATE_TOKEN: ${{ secrets.GITLABTOKEN }}
