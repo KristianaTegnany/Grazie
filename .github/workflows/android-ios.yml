@@ -23,7 +23,8 @@ jobs:
       run:  bundle install
     # Step 3: Unlock Keychain
     - name: Unlock Keychain
-      run: security unlock-keychain -p fghj /Users/runner/Library/Keychains/login.keychain-db
+    # Step 4: Install Node Version 14
+      run: security create-keychain -p "new_password" /Users/runner/Library/Keychains/new.keychain-db && security unlock-keychain -p "new_password" /Users/runner/Library/Keychains/new.keychain-db
     # Step 4: Install Node Version 14
     - name: Build and upload to TestFlight
       env:
