@@ -12,6 +12,7 @@ jobs:
   build-preprod-ios:
     runs-on: macos-15
     steps:
+    - uses: actions/checkout@v3
     # Step 1: Install Ruby
     - name: Install Ruby
       uses: ruby/setup-ruby@v1
