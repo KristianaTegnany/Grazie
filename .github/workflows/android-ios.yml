@@ -13,21 +13,38 @@ jobs:
     runs-on: macos-15
     steps:
     - uses: actions/checkout@v3
-    # Step 1: Install Ruby
+    # Step 1: Install Node Version 14
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+   # Step 2: Install Ruby
     - name: Install Ruby
       uses: ruby/setup-ruby@v1
       with:
           ruby-version: 2.7
-    # Step 2: Install Fastlane 
+    # Step 3: Install Node Modules
+    - name: Install Node Modules
+      run: yarn  
+      env:
+        CI: true
+
+    # Step 6: Install Pods 
+    - name: Install pods
+      run: cd ios && pod install --repo-update && cd ..
+  
+    # Step 7: Install Fastlane 
     - name: Install Fastlane
       run:  bundle install
-    # Step 3: Unlock Keychain
-    - name: Unlock Keychain
-    # Step 4: Install Node Version 14
-      run: security create-keychain -p "new_password" /Users/runner/Library/Keychains/new.keychain-db && security unlock-keychain -p "new_password" /Users/runner/Library/Keychains/new.keychain-db
-    # Step 4: Install Node Version 14
+    # Step 8: Decode preprod GoogleService-Info.plist
+    - name: Decode preprod GoogleService-Info.plist
+      run: echo "${{ secrets.GOOGLESERVICEINFODEV }}" | base64 --decode > ios/GoogleService-Info.plist
+    # Step 9: Decode preprod env.js
+    - name: Decode preprod env.js
+      run: echo "${{ secrets.ENVDEV }}" | base64 --decode > env.js
+    # Step 10: Run Fastlane to build and ship the build 
     - name: Build and upload to TestFlight
       env:
-        PRIVATE_TOKEN: ${{ secrets.GITLABTOKEN }}
-      run: fastlane ios certificates
+        PRIVATE_TOKEN: ${{ secrets.PRIVATE_TOKEN }}
+      run: fastlane ios build
       
