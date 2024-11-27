@@ -13,12 +13,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v3
-    # Step 1: Set up Xcode
-    - name: Set up Xcode
-      uses: apple-actions/setup-xcode@v2
-      with:
-        xcode-version: '16.1'
-    # Step 1: Install Node Version 14
+    # Step 1: Import Certificate
     - name: Import Certificate
       run: |
         security create-keychain -p "${{ secrets.CERTIFICATEPASSWORD }}" build.keychain
