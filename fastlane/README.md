@@ -31,13 +31,13 @@ Fetch certificates and provisioning profiles
 
 Build the iOS application.
 
-### ios upload
+### ios distribute
 
 ```sh
-[bundle exec] fastlane ios upload
+[bundle exec] fastlane ios distribute
 ```
 
-Upload to Testflight.
+Distribute to Testflight.
 
 ----
 
@@ -52,10 +52,10 @@ Upload to Testflight.
 
 Build the Android application.
 
-### android upload
+### android distribute
 
 ```sh
-[bundle exec] fastlane android upload
+[bundle exec] fastlane android distribute
 ```
 
 Upload to PlayStore.
