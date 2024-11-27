@@ -3,7 +3,7 @@ fastlane_version '2.225.0'
 platform :ios do
     desc 'Fetch certificates and provisioning profiles'
     lane :certificates do
-        match(app_identifier: 'fr.grazie.gigi', type: 'appstore', keychain_name: "new.keychain-db" readonly: true)
+        match(app_identifier: 'fr.grazie.gigi', type: 'appstore', keychain_name: "new.keychain-db", readonly: true)
     end
 
     desc 'Build the iOS application.'
