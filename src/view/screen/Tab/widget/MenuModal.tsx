@@ -1,5 +1,5 @@
 import { images } from 'assets/images';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import {
     Dimensions,
     Platform,
@@ -22,7 +22,7 @@ import { logout } from 'store/slice/user/userSlice';
 import colors from 'themes/colors';
 import { Button } from 'widget/Native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { updateMenuShown } from 'store/slice/app/appSlice';
+import { updateMenuShown, updateSubscribe } from 'store/slice/app/appSlice';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Source } from 'react-native-fast-image';
@@ -32,7 +32,6 @@ import TouchableView from 'widget/Native/TouchableView';
 import { useUser } from 'hooks/useUser';
 import { IS_PROD, VERSION } from '../../../../../env';
 import SubscribeItem from 'screen/User/Membership/widget/subscribeItem';
-import SubscribeModal from 'screen/User/Membership/SubscribeModal';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('screen');
 
@@ -95,10 +94,6 @@ const MenuModal = () => {
     const menuShown = useSelector((s: rootState) => s.appReducer.appDatas.menuShown);
     const profilePicture = useSelector((state: rootState) => state?.userReducer.userInfo.profilePicture);
 
-    const [subscribeModal, setSubscribeModal] = useState(false)
-
-    const closeSubscribeModal = () => setSubscribeModal(false);
-
     const navigate = (routeBase: string, screen?: string) => {
         dispatch(updateMenuShown(1))
         setTimeout(() => {
@@ -136,7 +131,7 @@ const MenuModal = () => {
     const onPressSecret = () => navigate(routeName.user.base, routeName.user.secret)
     const onPressNotifications = () => navigate(routeName.user.base, routeName.user.notification)
     const onPressMessaging = () => navigate(routeName.user.chat)
-    const onPressFormules = () => setSubscribeModal(true)
+    const onPressFormules = () => dispatch(updateSubscribe(true))
     const onPressKeywords = () => navigate(routeName.user.base, routeName.user.profile.home)
     const onPressTrips = () => navigate(routeName.user.base, routeName.user.travel.home)
     const onPressWhoGigi = () => navigate(routeName.others.whoGigi)
@@ -223,7 +218,6 @@ const MenuModal = () => {
                     </View>
                 </AnimatedView>
             </View>
-            <SubscribeModal modal={subscribeModal} setModal={closeSubscribeModal} />
         </Modal>
     );
 };

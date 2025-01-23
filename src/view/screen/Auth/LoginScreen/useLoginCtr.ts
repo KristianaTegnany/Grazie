@@ -2,7 +2,7 @@ import useAppNavigator from 'hooks/useAppNavigator';
 import routeName from 'routes/routeName';
 import {useForm} from 'react-hook-form';
 import {useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setAuth} from 'store/slice/user/userSlice';
 import Toast from 'react-native-toast-message';
 import SecureStorage from '@react-native-async-storage/async-storage';
@@ -20,10 +20,15 @@ import {UserCredential} from 'services/applicatif/auth/type';
 import Apollo from 'services/utils/apollo';
 import messaging from '@react-native-firebase/messaging';
 import { LoggerService } from 'services/applicatif/auth/loggerService';
+import { rootState } from 'store/reducer';
+import { navigateLink } from 'routes/Navigation';
 
 export default function useLoginCtr() {
   const navigator = useAppNavigator();
   const dispatch = useDispatch();
+  const redirectTo = useSelector(
+    (state: rootState) => state.appReducer.redirectTo
+  );
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -86,6 +91,9 @@ export default function useLoginCtr() {
               
               if (!account.lastName) {
                 navigator.navigateScreen(routeName.auth.registerName);
+              }
+              else if(redirectTo) {
+                navigateLink(redirectTo);
               }
 
               hideLoading();

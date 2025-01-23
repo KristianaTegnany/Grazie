@@ -117,7 +117,7 @@ const ArticleScreen = () => {
 
     return (
         <TabContainer forwardRef={ref} title={param.title} sharedId={`article.${param.id}.photo`}
-            image={{ uri: param.thumbnail?.urlLq }} backBtn>
+            image={{ uri: param.thumbnail?.urlLq || article?.headerBg?.urlLq }} backBtn>
             <AnimatedView
                 duration={500}
                 animation={'slideInUp'}
@@ -129,7 +129,7 @@ const ArticleScreen = () => {
                         {(param.category?.label || article?.category?.label || '').toUpperCase()} - {(param.region?.label || italy).toUpperCase()}
                     </Text>
                     <Text size={25} rosha color='textColorBlack' marginT={15} marginR={60}>
-                        {(param.title || '').toUpperCase()}
+                        {(param.title || article?.title || '').toUpperCase()}
                     </Text>
                     {article &&
                         <View>

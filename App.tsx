@@ -38,7 +38,6 @@ if (Platform.OS === 'android') {
 }
 
 const App = () => {
-
   useEffect(() => {
 
     initStripe({

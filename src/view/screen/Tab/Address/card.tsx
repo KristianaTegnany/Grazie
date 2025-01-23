@@ -1,3 +1,4 @@
+import React from 'react'
 import { AnimatedView, Image, ScrollView, Text, TextHtml, TouchableOpacity, View } from "widget/Native"
 import useCardCtr from "./cardCtr"
 import ActivityIndicator from "widget/Native/ActivityIndicator"

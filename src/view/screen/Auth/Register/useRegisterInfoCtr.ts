@@ -9,6 +9,7 @@ import Apollo from 'services/utils/apollo';
 import {UserService} from 'services/applicatif/user/userService';
 import {useSelector} from 'react-redux';
 import {rootState} from 'store/reducer';
+import { navigateLink } from 'routes/Navigation';
 
 type IProps = {
   first: string;
@@ -39,6 +40,10 @@ export default function useRegisterInfoCtr() {
 
   const email = useSelector(
     (state: rootState) => state.userReducer.userInfo.email,
+  );
+
+  const redirectTo = useSelector(
+    (state: rootState) => state.appReducer.redirectTo
   );
 
   const [civility, setCivility] = useState<string>();
@@ -87,6 +92,9 @@ export default function useRegisterInfoCtr() {
 
               setLoading(false);
 
+              if(redirectTo){
+                navigateLink(redirectTo)
+              }
               /*navigator.reset({
                 index: 0,
                 routes: [{name: routeName.auth.registerSubscription as never}],

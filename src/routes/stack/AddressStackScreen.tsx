@@ -9,7 +9,7 @@ const Stack = createSharedElementStackNavigator();
 const AddressStackScreen = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={routeName.tab.inspiration.home} component={AddressScreen} />
+            <Stack.Screen name={routeName.tab.address.home} component={AddressScreen} />
         </Stack.Navigator>
     );
 };

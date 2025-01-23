@@ -1,4 +1,5 @@
 //import { memo } from 'react';
+import React from 'react';
 import { AnimatedView, Image, Text, TouchableOpacity, View } from 'widget/Native';
 import { images } from 'assets/images';
 import routeName from 'routes/routeName';
@@ -45,7 +46,6 @@ const Stories = ({ isSubscribed, openPrivateModal }: { isSubscribed: boolean, op
                 index,
                 isFirst,
                 showTuto: isFirstBiblio && isFirstCasa && isFirstFriend && isFirstPepite,
-                categories: stories,
                 isFirstStory
             });
         } else {

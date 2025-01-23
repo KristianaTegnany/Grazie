@@ -73,6 +73,21 @@ export const appSlice = createSlice({
     resetParams: (state) => {
       state.params = {}
     },
+    setRedirect: (state, action: PayloadAction<string>) => {
+      state.redirectTo = action.payload;
+    },
+    resetRedirect: (state) => {
+      state.redirectTo = null
+    },
+    updateSubscribe: (state, action: PayloadAction<boolean>) => {
+      state.appDatas.subscribeShown = action.payload;
+    },
+    updateMagSubscribe: (state, action: PayloadAction<boolean>) => {
+      state.appDatas.subscribeMagShown = action.payload;
+    },
+    updateCarnet: (state, action: PayloadAction<boolean | number>) => {
+      state.appDatas.carnetShown = action.payload;
+    },
   },
 });
 
@@ -94,7 +109,12 @@ export const {
   setSharedDatas,
   setSubscriptionsBO,
   setParams,
-  resetParams
+  resetParams,
+  setRedirect,
+  resetRedirect,
+  updateSubscribe,
+  updateMagSubscribe,
+  updateCarnet
 } = appSlice.actions;
 
 export default appSlice.reducer;

@@ -1,3 +1,4 @@
+import React from 'react';
 import { images } from 'assets/images'
 import TabContainer from '../widget/TabContainer';
 import { ActivityIndicator, AnimatedView, Button, Image, ScrollView, Text, View } from 'widget/Native';

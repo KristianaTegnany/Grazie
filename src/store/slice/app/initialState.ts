@@ -12,6 +12,9 @@ export const appInitialState: AppStateType = {
   },
   appDatas: {
     menuShown: false,
+    subscribeShown: false,
+    subscribeMagShown: false,
+    carnetShown: false,
     isItalian: false,
     isLocale: false,
     isSplash: false,
@@ -214,4 +217,5 @@ export const appInitialState: AppStateType = {
     },
   },
   subscriptionsBO: [],
+  redirectTo: null
 };

@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button, Image, Text, View } from "widget/Native"
 import PrivateFlag from "./PrivateFlag";
 import { images } from "assets/images";

@@ -1,3 +1,4 @@
+import React from 'react'
 import { images } from "assets/images";
 import { usePurchase } from "hooks/usePurchase";
 import { useEffect, useRef, useState } from "react";

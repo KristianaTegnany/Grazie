@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AuthRoute from './AuthRoute';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { rootState } from 'store/reducer';
 import TabRoute from './TabRoute';
 import MenuModal from 'screen/Tab/widget/MenuModal';
@@ -11,9 +11,18 @@ import useStoreUpdate from 'hooks/useStoreUpdate';
 import { useAppState } from '@react-native-community/hooks';
 import { Button, Text, View } from 'widget/Native';
 import CenterModal from 'screen/Tab/widget/CenterModal';
+import { Linking } from 'react-native';
+import { navigateLink, navigationRef } from './Navigation';
+import SecureStorage from '@react-native-async-storage/async-storage';
+import { asyncStorage } from 'services/utils/constants';
+import { setRedirect, updateCarnet, updateMagSubscribe, updateSubscribe } from 'store/slice/app/appSlice';
+import routeName from './routeName';
+import SubscribeModal from 'screen/User/Membership/SubscribeModal';
+import SubscribeMagModal from 'screen/User/Membership/SubscribeMagModal';
+import SubscriptionDetailModal from 'screen/User/Membership/SubscriptionDetailModal';
 
 export default function AppRoute() {
-
+  const dispatch = useDispatch()
   const { checkForStoreUpdate, goToStore } = useStoreUpdate();
   const appState = useAppState()
 
@@ -24,6 +33,10 @@ export default function AppRoute() {
 
   const subscription = useSelector(
     (state: rootState) => state.userReducer.userInfo.subscription,
+  );
+
+  const subscriptionBO = useSelector(
+    (state: rootState) => state.appReducer.subscriptionsBO,
   );
 
   const id = useSelector(
@@ -42,12 +55,24 @@ export default function AppRoute() {
     updateMandatoryAvailableBtn,
   } = useSelector((s: rootState) => s.authReducer.noAuthDatas.translation);
 
+  const redirectTo = useSelector((state: rootState) => state.appReducer.redirectTo)
+
+  const subscribeShown = useSelector((state: rootState) => state.appReducer.appDatas.subscribeShown)
+  const subscribeMagShown = useSelector((state: rootState) => state.appReducer.appDatas.subscribeMagShown)
+  const carnetShown = useSelector((state: rootState) => state.appReducer.appDatas.carnetShown)
+
   usePurchase();
 
   const beforeGoingToStore = () => {
     setShowUpdate(data => ({ ...data, show: false }))
     goToStore()
   }
+
+  const closeSubscribeModal = () => dispatch(updateSubscribe(false));
+  const closeSubscribeMagModal = () => dispatch(updateMagSubscribe(false));
+  const closeCarnetModal = () => dispatch(updateCarnet(false));
+
+  const [carnet, setCarnet] = useState<any>()
 
   useEffect(() => {
     dayjs.locale(it ? 'it' : 'fr');
@@ -69,6 +94,39 @@ export default function AppRoute() {
     }
   }, [appState])
 
+  const magCallback = () => {
+    if(redirectTo)
+      navigateLink(redirectTo)
+  }
+
+  const handleDeepLink = async ({ url } : { url: string }) => {
+    const path = url.replace('grazie://', '');
+    const data = await SecureStorage.getItem(asyncStorage.app_refresh_token);
+    if(path.includes('notebook/')){
+      const id = path.split('/')[1]
+      if(id){
+        const product = subscriptionBO.find(sub => sub.id == id)
+        if(product){
+          setCarnet(product)
+        }
+      }
+    }
+    if (data == null) {
+      dispatch(setRedirect(path))
+      //@ts-ignore
+      navigationRef.navigate(routeName.auth.registerOrSignin);
+    }
+    else navigateLink(path);
+  }
+
+  useEffect(() => {
+    Linking.addEventListener('url', handleDeepLink);
+
+    return () => {
+      Linking.removeAllListeners('url');
+    };
+  }, [])
+
   return (
     <>
       {!(lastName && id) &&
@@ -84,6 +142,9 @@ export default function AppRoute() {
         <Text center size={14}>{updateMandatoryAvailable}</Text>
         <Button sm onPress={beforeGoingToStore} text={updateMandatoryAvailableBtn} marginT={20} marginB={10} paddingH={20} />
       </View>} />
+      <SubscribeModal modal={subscribeShown} setModal={closeSubscribeModal} />
+      <SubscribeMagModal modal={subscribeMagShown} setModal={closeSubscribeMagModal} afterClosedAuto={magCallback} />
+      <SubscriptionDetailModal modal={carnetShown !== false} product={carnet} setModal={closeCarnetModal} />
     </>
   )
 }

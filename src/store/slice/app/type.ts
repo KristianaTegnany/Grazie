@@ -10,6 +10,9 @@ export type IBottomNavDatas = {
 
 type IAppDatas = {
   menuShown: boolean | number;
+  subscribeShown: boolean;
+  subscribeMagShown: boolean;
+  carnetShown: boolean | number;
   isItalian: boolean;
   isLocale: boolean;
   isSplash: boolean;
@@ -232,7 +235,8 @@ type AppStateType = {
   membershipDatas: IMembershipDatas;
   subscriptionsBO: any[];
   sharedDatas: ISharedDatas;
-  params?: {}
+  params?: {},
+  redirectTo: string | null
 };
 
 export default AppStateType;

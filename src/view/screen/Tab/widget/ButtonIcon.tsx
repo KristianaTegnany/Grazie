@@ -65,9 +65,8 @@ const ButtonIcon = (props: IProps) => {
     return (
         <TouchableView onPress={onPress}
             padding={padding}
-            width={dimension}
-            marginL={marginL}
-            height={dimension} border={dimension / 2} color={color || 'secondary'} marginR={['fato', 'green'].includes(type) ? 10 : 0}>
+            size={dimension}
+            marginL={marginL} border={dimension / 2} color={color || 'secondary'} marginR={['fato', 'green'].includes(type) ? 10 : 0}>
             {
                 !loading && <Image
                     source={source}

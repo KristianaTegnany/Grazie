@@ -1,3 +1,4 @@
+import React from 'react'
 import TabContainer from '../widget/TabContainer';
 import { ActivityIndicator } from 'widget/Native';
 import TabCategories from '../widget/TabCategories';

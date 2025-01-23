@@ -35,7 +35,6 @@ export default function useStoryCtr() {
     index: number;
     isFirst: boolean;
     showTuto: boolean;
-    categories: ICategory[];
     isFirstStory: boolean[];
   }>();
 

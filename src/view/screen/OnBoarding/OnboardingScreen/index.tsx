@@ -59,7 +59,7 @@ const OnboardingScreen = () => {
     _carousel.current?.snapToNext();
   }
 
-  return datas.length > 0 && (
+  return datas.length > 0? (
     <View
       style={onboardingScreenStyle.container}
     >
@@ -89,7 +89,7 @@ const OnboardingScreen = () => {
         />
       </View>
     </View>
-  );
+  ) : null
 };
 
 export default OnboardingScreen;

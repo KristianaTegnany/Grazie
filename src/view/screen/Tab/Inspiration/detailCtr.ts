@@ -52,6 +52,8 @@ export default function useDetailCtr() {
     durations?: number[],
     showLoading?: boolean,
   ) => {
+
+    console.log('refresh')
     setError(false);
     if (showLoading) {
       setLoading(true);
@@ -135,11 +137,11 @@ export default function useDetailCtr() {
   useEffect(() => {
     if (filterDatas.length > 0) {
       refresh(
-        isPro
+        param.index === 3? [param.index] : (isPro
           ? filterDatas[0].items
               .filter(item => item.checked)
               .map(item => parseInt(item.id))
-          : [],
+          : []),
         filterDatas[isPro ? 1 : 0].items
           .filter(item => item.checked)
           .map(item => parseInt(item.id)),
@@ -152,16 +154,16 @@ export default function useDetailCtr() {
         true,
       );
     }
-  }, [filterDatas]);
+  }, [filterDatas.length]);
 
   useEffect(() => {
     if (navigator.isFocused && filterDatas.length > 0) {
       refresh(
-        isPro
+        param.index === 3? [param.index] : (isPro
           ? filterDatas[0].items
               .filter(item => item.checked)
               .map(item => parseInt(item.id))
-          : [],
+          : []),
         filterDatas[isPro ? 1 : 0].items
           .filter(item => item.checked)
           .map(item => parseInt(item.id)),

@@ -55,14 +55,14 @@ const Suggestions = ({ articleId, category, isSubscribed, goToArticle }: { artic
         getSuggestions()
     }, [getSuggestions])
 
-    return loading ? <ActivityIndicator padding={20} /> : suggestions.length > 0 &&
+    return loading ? <ActivityIndicator padding={20} /> : (suggestions.length > 0 ?
         <View marginB={38}>
             <Divider marginH={15} marginT={0} marginB={38} />
             <Text marginH={10} rosha size={22}>{discoverOtherGigiSecrets}</Text>
             <ScrollView horizontal row paddingT={38} paddingL={15} paddingR={5}>
                 {suggestions.map(renderSuggestion)}
             </ScrollView>
-        </View>
+        </View> : null)
 } //, (prev, next) => JSON.stringify(prev.articleId) === JSON.stringify(next.articleId))
 
 export default Suggestions;

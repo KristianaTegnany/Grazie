@@ -1,3 +1,4 @@
+import React from 'react'
 import { AnimatedView, Image, ScrollView, Text, TextHtml, View } from "widget/Native"
 import TabContainer from "../widget/TabContainer"
 import useDestinationCtr from "./destinationCtr"
@@ -184,7 +185,6 @@ const InspirationDestinationScreen = () => {
         favoriteCallback,
     } = useDestinationCtr()
     const { allowedRegions, isAllRegions } = useUser();
-
     const renderContent = (content: any, i: number) => {
         return content.type === 'media' ?
             <Image key={i} source={{ uri: content.media?.urlLq }} height={265} marginB={38} />
@@ -227,11 +227,11 @@ const InspirationDestinationScreen = () => {
             </View>
     }
 
-    const image = { uri: detail.thumbnail?.urlLq }
+    const image = { uri: detail?.thumbnail?.urlLq || destination?.headerBg?.urlLq }
     const nid = destination?.id && parseInt(destination.id)
 
     return (
-        <TabContainer title={detail.title} sharedId={`inspiration.${detail.id}.photo`}
+        <TabContainer title={detail?.title || destination?.title} sharedId={`inspiration.${detail?.id}.photo`}
             image={image} backBtn>
             <AnimatedView
                 duration={500}
