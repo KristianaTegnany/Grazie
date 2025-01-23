@@ -64,7 +64,6 @@ export default function useMapCtr() {
   const [userLocation, setUserLocation] = useState<
     {lat: number; long: number} | undefined
   >();
-  const [isItaly, setIsItaly] = useState(false);
 
   const [filterDatas, setFilterDatas] = useState<IGroupItem[]>([
     {title: filterSuggestions, items: [], isSelected: false},
@@ -249,34 +248,21 @@ export default function useMapCtr() {
 
 
   useEffect(() => {
-    if (isItaly) {
-      if (isAndroid) {
-        watchId = Geolocation.watchPosition(
-          position => updateUserLocation(position),
-          _ => {
-          },
-          {
-            accuracy: {android: 'high'},
-            enableHighAccuracy: true,
-            forceRequestLocation: true,
-            interval: 3000,
-            distanceFilter: 100,
-          },
-        );
-      }
+    if (isAndroid) {
+      watchId = Geolocation.watchPosition(
+        position => updateUserLocation(position),
+        _ => {
+        },
+        {
+          accuracy: {android: 'high'},
+          enableHighAccuracy: true,
+          forceRequestLocation: true,
+          interval: 3000,
+          distanceFilter: 100,
+        },
+      );
     }
-  }, [isItaly]);
-
-  useEffect(() => {
-    if (isGranted && isMap) {
-      axios
-        .get('https://ipinfo.io')
-        .then(res => {
-          const is_italy = res.data?.country === 'IT';
-          setIsItaly(is_italy);
-        });
-    }
-  }, [isGranted, isMap]);
+  }, []);
 
   useEffect(() => {
     if (!isFirstMap && isMap) {
@@ -299,7 +285,6 @@ export default function useMapCtr() {
     isAndroid,
     isFirstMap,
     isGranted,
-    isItaly,
     map,
     noTravel: travels.length === 0,
     points,

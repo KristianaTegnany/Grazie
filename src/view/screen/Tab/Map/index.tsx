@@ -32,7 +32,6 @@ const MapScreen = () => {
         isAndroid,
         isFirstMap,
         isGranted,
-        isItaly,
         map,
         noTravel,
         points,
@@ -68,7 +67,7 @@ const MapScreen = () => {
         }
     })
 
-    const centerCoordinate = isItaly && userLocation ? [userLocation.long, userLocation.lat] : centerCoord
+    const centerCoordinate = userLocation ? [userLocation.long, userLocation.lat] : centerCoord
     const tutoBG = { uri: thumbnail?.urlLq }
 
     return (
@@ -147,11 +146,11 @@ const MapScreen = () => {
 
                     </MapboxGL.ShapeSource>
                     {
-                        isAndroid && isItaly && userLocation &&
+                        isAndroid && userLocation &&
                         <MapboxGL.MarkerView
                             coordinate={[userLocation.long, userLocation.lat]}><AnimatedView animation={'pulse'} iterationCount={'infinite'}><View size={20} border={10} hexColor='#4286F5' borderW={2} borderC='white' /></AnimatedView></MapboxGL.MarkerView>
                     }
-                    {!isFirstMap && !isAndroid && isGranted && isItaly && <MapboxGL.UserLocation
+                    {!isFirstMap && !isAndroid && isGranted && <MapboxGL.UserLocation
                         visible={true}
                         requestsAlwaysUse={true}
                         minDisplacement={100}
