@@ -93,7 +93,7 @@ export default function useLoginCtr() {
                 navigator.navigateScreen(routeName.auth.registerName);
               }
               else if(redirectTo) {
-                navigateLink(redirectTo);
+                navigateLink(redirectTo, true);
               }
 
               hideLoading();

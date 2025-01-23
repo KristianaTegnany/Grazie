@@ -52,8 +52,6 @@ export default function useDetailCtr() {
     durations?: number[],
     showLoading?: boolean,
   ) => {
-
-    console.log('refresh')
     setError(false);
     if (showLoading) {
       setLoading(true);

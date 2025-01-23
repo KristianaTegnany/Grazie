@@ -8,7 +8,7 @@ import { useState } from "react";
 import SubscribeModal from "screen/User/Membership/SubscribeModal";
 import SubscribeMagModal from "../SubscribeMagModal";
 
-const PrivateModalContent = ({ hasFlag, isAddress, isArticle, isInline, isMag, callback }: { hasFlag?: boolean, isAddress?: boolean, isArticle?: boolean, isInline?: boolean, isMag?: boolean, callback?: () => void }) => {
+const PrivateModalContent = ({ hasFlag, isAddress, isArticle, isInline, isMag, afterClosedAuto }: { hasFlag?: boolean, isAddress?: boolean, isArticle?: boolean, isInline?: boolean, isMag?: boolean, afterClosedAuto?: () => void }) => {
     const { becomeMember, becomeMemberToAccessAllGigisExclusiveContent, becomeMemberToContinueReading, becomeMemberToDiscoverOurAddresses } = useSelector((state: rootState) => state.appReducer.membershipDatas.translation);
 
     const [subscribeModal, setSubscribeModal] = useState(false);
@@ -29,8 +29,8 @@ const PrivateModalContent = ({ hasFlag, isAddress, isArticle, isInline, isMag, c
                 <Text center marginB={20} size={15} bold>{isArticle ? becomeMemberToContinueReading : (isAddress ? becomeMemberToDiscoverOurAddresses : becomeMemberToAccessAllGigisExclusiveContent)}</Text>
                 <Button md text={becomeMember} marginB={20} onPress={showSubscribeModal} />
             </View>
-            <SubscribeModal modal={subscribeModal} setModal={closeSubscribeModal} afterClosedAuto={callback} />
-            <SubscribeMagModal modal={subscribeMagModal} setModal={closeSubscribeMagModal} afterClosedAuto={callback} />
+            <SubscribeModal modal={subscribeModal} setModal={closeSubscribeModal} afterClosedAuto={afterClosedAuto} />
+            <SubscribeMagModal modal={subscribeMagModal} setModal={closeSubscribeMagModal} afterClosedAuto={afterClosedAuto} />
         </>
     )
 }

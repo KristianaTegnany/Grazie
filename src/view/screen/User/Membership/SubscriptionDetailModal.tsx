@@ -30,7 +30,7 @@ import LinearGradient from "widget/Native/LinearGradient";
 
 const { width } = Dimensions.get('window');
 
-const SubscriptionDetailModal = ({ modal, product, setModal }: { modal: boolean, product?: any, setModal: () => void }) => {
+const SubscriptionDetailModal = ({ modal, product, setModal, callback }: { modal: boolean, product?: any, setModal: () => void, callback?: () => void }) => {
     let _carousel = useRef<Carousel>(null);
     const dispatch = useDispatch()
 
@@ -48,11 +48,14 @@ const SubscriptionDetailModal = ({ modal, product, setModal }: { modal: boolean,
     const [step, setStep] = useState(0)
     const [showSuggestionMagModal, setShowSuggestionMagModal] = useState(false)
 
-    const close = () => {
+    const close = (auto?: boolean) => {
         setShowSuggestionMagModal(false)
         setModal()
         setStep(0)
         setDetail(undefined)
+        if(auto && callback){
+            callback()
+        }
     }
 
     const _renderItem = ({
@@ -151,7 +154,7 @@ const SubscriptionDetailModal = ({ modal, product, setModal }: { modal: boolean,
 
     const closeSuggestionMagModal = (auto?: boolean) => {
         if (auto) {
-            close()
+            close(true)
         }
         else
             setShowSuggestionMagModal(false)
@@ -173,7 +176,7 @@ const SubscriptionDetailModal = ({ modal, product, setModal }: { modal: boolean,
                 if (customerInfo) {
                     const res = await Apollo.getSubscription(true)
                     if (res) {
-                        close()
+                        close(true)
                     }
                 }
             } catch (e) {

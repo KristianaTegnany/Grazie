@@ -146,7 +146,7 @@ const CardLayout = ({ blur, dark, source, type, size, category, title, subtitle,
             {dark && <View absolute={1} top={0} left={0} right={0} bottom={0} borderT={borderT} borderB={borderB} hexColor="#00000055" />}
             <View between absolute={1} top={0} bottom={0} left={0} right={0} borderT={borderT} borderB={borderB} borderW={selected ? 2 : 0} borderC={'primary'}>
                 {selected && <View absolute={1} right={10} top={10}><Icon name="checkcircle" color={colors.primary} size={25} /></View>}
-                <View row between iCenter padding={textEnd ? 20 : 0}>
+                <View row between iCenter padding={textEnd ? 20 : 0} paddingB={type === 'rect' && size === 'sm'? 10 : undefined}>
                     <View row>
                         {
                             isGreen && onGreenPress &&

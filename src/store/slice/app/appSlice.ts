@@ -85,8 +85,11 @@ export const appSlice = createSlice({
     updateMagSubscribe: (state, action: PayloadAction<boolean>) => {
       state.appDatas.subscribeMagShown = action.payload;
     },
-    updateCarnet: (state, action: PayloadAction<boolean | number>) => {
-      state.appDatas.carnetShown = action.payload;
+    updateCarnet: (state, action: PayloadAction<any>) => {
+      state.appDatas.carnetData = action.payload;
+    },
+    updatePrivate: (state, action: PayloadAction<boolean>) => {
+      state.appDatas.privateShown = action.payload;
     },
   },
 });
@@ -114,7 +117,8 @@ export const {
   resetRedirect,
   updateSubscribe,
   updateMagSubscribe,
-  updateCarnet
+  updateCarnet,
+  updatePrivate
 } = appSlice.actions;
 
 export default appSlice.reducer;

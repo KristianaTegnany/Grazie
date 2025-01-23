@@ -93,7 +93,7 @@ export default function useRegisterInfoCtr() {
               setLoading(false);
 
               if(redirectTo){
-                navigateLink(redirectTo)
+                navigateLink(redirectTo, true)
               }
               /*navigator.reset({
                 index: 0,

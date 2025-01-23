@@ -15,11 +15,12 @@ import { Linking } from 'react-native';
 import { navigateLink, navigationRef } from './Navigation';
 import SecureStorage from '@react-native-async-storage/async-storage';
 import { asyncStorage } from 'services/utils/constants';
-import { setRedirect, updateCarnet, updateMagSubscribe, updateSubscribe } from 'store/slice/app/appSlice';
+import { setRedirect, updateCarnet, updateMagSubscribe, updatePrivate, updateSubscribe } from 'store/slice/app/appSlice';
 import routeName from './routeName';
 import SubscribeModal from 'screen/User/Membership/SubscribeModal';
 import SubscribeMagModal from 'screen/User/Membership/SubscribeMagModal';
 import SubscriptionDetailModal from 'screen/User/Membership/SubscriptionDetailModal';
+import PrivateModal from 'screen/User/Membership/widget/PrivateModal';
 
 export default function AppRoute() {
   const dispatch = useDispatch()
@@ -33,10 +34,6 @@ export default function AppRoute() {
 
   const subscription = useSelector(
     (state: rootState) => state.userReducer.userInfo.subscription,
-  );
-
-  const subscriptionBO = useSelector(
-    (state: rootState) => state.appReducer.subscriptionsBO,
   );
 
   const id = useSelector(
@@ -59,7 +56,8 @@ export default function AppRoute() {
 
   const subscribeShown = useSelector((state: rootState) => state.appReducer.appDatas.subscribeShown)
   const subscribeMagShown = useSelector((state: rootState) => state.appReducer.appDatas.subscribeMagShown)
-  const carnetShown = useSelector((state: rootState) => state.appReducer.appDatas.carnetShown)
+  const carnetData = useSelector((state: rootState) => state.appReducer.appDatas.carnetData)
+  const privateShown = useSelector((state: rootState) => state.appReducer.appDatas.privateShown)
 
   usePurchase();
 
@@ -70,9 +68,14 @@ export default function AppRoute() {
 
   const closeSubscribeModal = () => dispatch(updateSubscribe(false));
   const closeSubscribeMagModal = () => dispatch(updateMagSubscribe(false));
-  const closeCarnetModal = () => dispatch(updateCarnet(false));
+  const closeCarnetModal = () => dispatch(updateCarnet(null));
+  const closePrivateModal = () => dispatch(updatePrivate(false));
 
-  const [carnet, setCarnet] = useState<any>()
+  const callback = () => {
+    if(redirectTo){
+      navigateLink(redirectTo, true)
+    }
+  }
 
   useEffect(() => {
     dayjs.locale(it ? 'it' : 'fr');
@@ -94,23 +97,9 @@ export default function AppRoute() {
     }
   }, [appState])
 
-  const magCallback = () => {
-    if(redirectTo)
-      navigateLink(redirectTo)
-  }
-
   const handleDeepLink = async ({ url } : { url: string }) => {
     const path = url.replace('grazie://', '');
     const data = await SecureStorage.getItem(asyncStorage.app_refresh_token);
-    if(path.includes('notebook/')){
-      const id = path.split('/')[1]
-      if(id){
-        const product = subscriptionBO.find(sub => sub.id == id)
-        if(product){
-          setCarnet(product)
-        }
-      }
-    }
     if (data == null) {
       dispatch(setRedirect(path))
       //@ts-ignore
@@ -143,8 +132,9 @@ export default function AppRoute() {
         <Button sm onPress={beforeGoingToStore} text={updateMandatoryAvailableBtn} marginT={20} marginB={10} paddingH={20} />
       </View>} />
       <SubscribeModal modal={subscribeShown} setModal={closeSubscribeModal} />
-      <SubscribeMagModal modal={subscribeMagShown} setModal={closeSubscribeMagModal} afterClosedAuto={magCallback} />
-      <SubscriptionDetailModal modal={carnetShown !== false} product={carnet} setModal={closeCarnetModal} />
+      <SubscribeMagModal modal={subscribeMagShown} setModal={closeSubscribeMagModal} afterClosedAuto={callback} />
+      <SubscriptionDetailModal modal={carnetData !== null} product={carnetData} setModal={closeCarnetModal} callback={callback} />
+      <PrivateModal modal={privateShown} closeModal={closePrivateModal} callback={callback}/>
     </>
   )
 }

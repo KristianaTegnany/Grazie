@@ -12,7 +12,8 @@ type IAppDatas = {
   menuShown: boolean | number;
   subscribeShown: boolean;
   subscribeMagShown: boolean;
-  carnetShown: boolean | number;
+  carnetData: any;
+  privateShown: boolean;
   isItalian: boolean;
   isLocale: boolean;
   isSplash: boolean;
