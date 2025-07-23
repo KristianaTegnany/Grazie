@@ -9,7 +9,7 @@ To install MapBox, you have to create a new file ".netrc" in the project's root 
 ```bash
 machine api.mapbox.com
 login mapbox
-password sk.eyJ1IjoiZ29yaWxsZXMiLCJhIjoiY2xta2FoNXRvMDBrdTJqcGdpb2RheGQyYSJ9.-J4JUVPlZq9V69rkq_AJPw
+password xxxx
 ```
 
 ## Step 2: Switch to prod or preprod
